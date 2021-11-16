@@ -1,0 +1,61 @@
+Sub Create_Tables()
+
+DoCmd.RunSQL "CREATE TABLE salle(" & _
+   "id_salle COUNTER," & _
+   "nom VARCHAR(50) NOT NULL," & _
+   "PRIMARY KEY(id_salle)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE matiere(" & _
+   "id_matiere COUNTER," & _
+   "nom VARCHAR(50) NOT NULL," & _
+   "PRIMARY KEY(id_matiere)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE professeur(" & _
+   "id_individu COUNTER," & _
+   "code VARCHAR(50) NOT NULL," & _
+   "nom VARCHAR(50)," & _
+   "prenom VARCHAR(50)," & _
+   "competence VARCHAR(50)," & _
+   "PRIMARY KEY(id_individu)," & _
+   "UNIQUE(code)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE etudiant(" & _
+   "id_individu COUNTER," & _
+   "code_etudiant COUNTER NOT NULL," & _
+   "nom VARCHAR(50)," & _
+   "prenom VARCHAR(50)," & _
+   "numero INT," & _
+   "rue VARCHAR(50)," & _
+   "ville VARCHAR(50)," & _
+   "code_postal VARCHAR(15)," & _
+   "diplome VARCHAR(50)," & _
+   "PRIMARY KEY(id_individu)," & _
+   "UNIQUE(code_etudiant)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE cours(" & _
+   "id_salle INT," & _
+   "id_cours VARCHAR(50)," & _
+   "heure_de_debut DATETIME NOT NULL," & _
+   "heure_de_fin DATETIME NOT NULL," & _
+   "id_individu INT NOT NULL," & _
+   "id_matiere INT NOT NULL," & _
+   "PRIMARY KEY(id_salle, id_cours)," & _
+   "FOREIGN KEY(id_salle) REFERENCES salle(id_salle)," & _
+   "FOREIGN KEY(id_individu) REFERENCES professeur(id_individu)," & _
+   "FOREIGN KEY(id_matiere) REFERENCES matiere(id_matiere)" & _
+");"   
+
+DoCmd.RunSQL "CREATE TABLE cours_etudiant(" & _
+   "id_salle INT," & _
+   "id_cours VARCHAR(50)," & _
+   "id_individu INT," & _
+   "PRIMARY KEY(id_salle, id_cours, id_individu)," & _
+   "FOREIGN KEY(id_salle, id_cours) REFERENCES cours(id_salle, id_cours)," & _
+   "FOREIGN KEY(id_individu) REFERENCES etudiant(id_individu)" & _
+");"   
+
+End Sub
